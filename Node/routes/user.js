@@ -165,7 +165,7 @@ router.post('/changePassword', auth.authenticationToken, (req, res) => {
                         return res.status(400).json({ message: "Password updated successfully" })
                     } else {
                         return res.status(500).json(err)
-                    }   
+                    }
                 })
             }
             else {
