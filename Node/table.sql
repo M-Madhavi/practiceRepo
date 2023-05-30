@@ -15,5 +15,14 @@ create table category(
     id int not null AUTO_INCREMENT,
     name varchar(50) not null,
     primary key(id)
+)
 
+create table product(
+    id int not null AUTO_INCREMENT,
+    name varchar(250),
+    categoryId int not null,
+    description varchar(255),
+    price int not null,
+    status varchar(20),
+    primary key(id)
 )

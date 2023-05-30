@@ -4,8 +4,8 @@ const connection = require('../connection')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 
-const auth = require('./services/authentication')
-const checkrole = require('./services/checkRole')
+const auth = require('../services/authentication')
+const checkrole = require('../services/checkRole')
 
 
 

@@ -5,6 +5,7 @@ var cors = require('cors')
 const connection = require('./connection')
 const app = express()
 const userRoute = require("./routes/user")
+const categoryRoute = require('./routes/category')
 const port = process.env.PORT
 app.use(cors());
 app.use(express.urlencoded({ extended: true }))
@@ -14,6 +15,7 @@ app.get('/', function (req, res) {
 });
 
 app.use('/user', userRoute)
+app.use('/category',categoryRoute)
 
 app.listen(port, () => {
   console.log("App listening", port
