@@ -51,6 +51,33 @@ router.post('/generatereport', auth.authenticationToken, async (req, res) => {
     });
 });
 
+router.post('/getpdf', auth.authenticationToken, async (req, res) => {
+    const orderDetails = req.body
+    const pdfpath = `./generatedpdf/${orderDetails.uuid}.pdf`
+    console.log("pdfpath", pdfpath)
+    if (fs.existsSync(pdfpath)) {
+        res.contentType("application/pdf");
+        fs.createReadStream(pdfpath).pipe(res)
+    } else {
+        var productDetailsReport = JSON.parse(orderDetails.productDetails)
+        orderDetails.productDetails = productDetailsReport
+        const html = await ejs.renderFile(templatePath, orderDetails);
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.setContent(html);
+
+        const pdfBytes = await page.pdf({ format: 'A4' });
+        await browser.close();
+
+        const outputPath = path.join(rootFolderPath, `./${orderDetails.uuid}.pdf`);
+        fs.writeFileSync(outputPath, pdfBytes);
+
+        console.log('PDF generated successfully');
+        res.contentType("application/pdf");
+        fs.createReadStream(pdfpath).pipe(res)
+    }
+})
+
 module.exports = router;
 
 
