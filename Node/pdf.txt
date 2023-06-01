@@ -1,0 +1,224 @@
+//working
+  // ejs.renderFile(templatePath, data, (err, html) => {
+    //   if (err) {
+    //     console.error('Error rendering EJS template:', err);
+    //     return res.status(500).json({ error: err });
+    //   }
+
+    //   const outputPath = path.join(__dirname, `../${generateuuid}.pdf`);
+    // //   const doc = new PDFDocument();
+
+    // //   doc.pipe(fs.createWriteStream(outputPath));
+
+    // //   doc.font('Helvetica').fontSize(12);
+    // //   doc.text(html, { align: 'left' });
+
+    // //   doc.end();
+
+    // //   doc.on('end', () => {
+    // //     console.log('PDF generated successfully');
+    // //     return res.status(200).json({ uuid: generateuuid });
+    // //   });
+
+    // //   doc.on('error', (err) => {
+    // //     console.error('Error generating PDF:', err);
+    // //     return res.status(500).json({ error: err });
+    // //   });
+    // const options = { format: 'A4' };
+    // pdf.create(html, options).toFile(outputPath, (err) => {
+    //   if (err) {
+    //     console.error('Error generating PDF:', err);
+    //     return res.status(500).json({ error: err });
+    //   }
+      
+    //   console.log('PDF generated successfully');
+    //   return res.status(200).json({ uuid: generateuuid });
+    // });
+    // });
+
+
+
+
+
+
+
+
+
+
+        if (!err) {
+            // ejs.renderFile(path.join(__dirname, './report.ejs'), data, (err, html) => {
+            //     if (err) {
+            //       console.error('Error rendering EJS template:', err);
+            //       return res.status(500).json({ error: err });
+            //     }
+            
+            //     const options = {
+            //       format: 'A4',
+            //       orientation: 'portrait',
+            //     };
+            
+            //     pdf.create(html, options).toFile(`../generated_pdf/${generateuuid}.pdf`, (err, result) => {
+            //       if (err) {
+            //         console.error('Error generating PDF:', err);
+            //         return res.status(500).json({ error: err });
+            //       }
+            
+            //       console.log('PDF generated successfully');
+            //       return res.status(200).json({ uuid: generateuuid });
+            //     });
+            //   });
+            ejs.renderFile(path.join(__dirname, './report.ejs'), data, (err, html) => {
+                if (err) {
+                  console.error('Error rendering EJS template:', err);
+                  return res.status(500).json({ error: err });
+                }
+            const outputPath = path.join(__dirname, `../${generateuuid}.pdf`);
+            const doc = new PDFDocument();
+        
+            doc.pipe(fs.createWriteStream(outputPath));
+        
+            doc.font('Helvetica').fontSize(12);
+            doc.text(html, { align: 'left' });
+        
+            doc.end();
+        
+            doc.on('end', () => {
+              console.log('PDF generated successfully');
+              return res.status(200).json({ uuid: generateuuid });
+            });
+        
+            doc.on('error', (err) => {
+              console.error('Error generating PDF:', err);
+              return res.status(500).json({ error: err });
+            });
+          });
+        }
+        else {
+            console.log("errr", err)
+            return res.status(500).json(err)
+        }
+
+
+
+
+
+// const express = require('express')
+// const connection = require('../connection')
+// const router = express.Router()
+// let ejs = require('ejs')
+// let pdf = require('html-pdf')
+// let path = require('path')
+// const fs = require('fs')
+// const uuid = require('uuid')
+// const auth = require('../services/authentication')
+// const PDFDocument = require('pdfkit');
+
+// const templatePath = path.resolve(__dirname, './report.ejs');
+
+
+
+// router.post('/generatereport', auth.authenticationToken, (req, res) => {
+//     const generateuuid = uuid.v1();
+//     const orderDetails = req.body;
+//     const productDetailsReport = JSON.parse(orderDetails.productDetails);
+//     let data = {
+//         name: orderDetails.name,
+//         email: orderDetails.email,
+//         contactNumber: orderDetails.contactNumber,
+//         paymentMethod: orderDetails.paymentMethod,
+//         totalAmount: orderDetails.totalAmount,
+//         productDetails: productDetailsReport,
+
+//     }
+//     console.log("productDetailsReport", productDetailsReport, generateuuid, orderDetails)
+//     let query = "insert into bill (name,uuid,email,contactNumber,paymentMethod,total,productDetails,createdBy) values(?,?,?,?,?,?,?,?)"
+//     connection.query(query, [orderDetails.name, generateuuid, orderDetails.email, orderDetails.contactNumber, orderDetails.paymentMethod, orderDetails.totalAmount, orderDetails.productDetails, res.locals.email], (err, resp) => {
+//         if (!err) {
+
+//             ejs.renderFile(
+//                 templatePath,
+//                 data,
+//                 (err, html) => {
+//                     if (err) {
+//                         console.error('Error rendering EJS template:', err);
+//                         return res.status(500).json({ errr: err })
+//                     }
+//                     else {
+
+//                         const outputPath = path.join(__dirname, `../${generateuuid}.pdf`);
+//                         const doc = new PDFDocument();
+
+//                         doc.pipe(fs.createWriteStream(outputPath));
+
+//                         doc.font('Helvetica').fontSize(12);
+//                         doc.text(html, { align: 'left' });
+
+//                         doc.end();
+//                         doc.on('end', (error, response) => {
+//                             if (error) {
+//                                 doc.on('error', (err) => {
+//                                     console.error('Error generating PDF:', err);
+//                                 });
+//                                 return res.status(500).json({ error: error })
+//                             }
+//                             console.log('PDF generated successfully');
+
+//                             return res.status(200).json({ uuid: generateuuid })
+//                         });
+
+
+//                     }
+
+//                 }
+//             );
+//         }
+//         else {
+//             console.log("errr", err)
+//             return res.status(500).json(err)
+//         }
+//     })
+// })
+
+// module.exports = router
+
+
+ // Create a PDF document
+                        // const doc = new PDFDocument();
+
+                        // // Pipe the PDF document to a writable stream
+                        // const stream = fs.createWriteStream(`${uuid}.pdf`);
+                        // doc.pipe(stream);
+
+                        // // Add the rendered HTML to the PDF document
+                        // // doc.font('Helvetica').text(html);
+                        // doc.text(html);
+
+
+                        // // Finalize the PDF document
+                        // doc.end();
+
+                        // // Handle the completion of PDF generation
+                        // stream.on('finish', (error, resultts) => {
+                        //     if (error) {
+                        //         console.log("@@@@@@errr", err)
+                        //         // Handle any errors during PDF generation
+                        //         stream.on('error', (err) => {
+                        //             console.error('Error generating PDF:', err);
+                        //         });
+                        //         return res.status(500).json({ error: err })
+                        //     } else {
+                        //         return res.status(200).json({ uuid: generateuuid })
+                        //     }
+                        // });
+                        // Generate the PDF from HTML
+                        // pdf.create(html).toFile(`${uuid}.pdf`, (err, rest) => {
+                        //     if (err) {
+                        //         // Handle the error
+                        //         console.error('Error generating PDF:', err);
+                        //         return;
+                        //     }
+
+                        //     console.log('PDF generated successfully');
+                        // return res.status(200).json({ uuid: generateuuid })
+
+                        // });
