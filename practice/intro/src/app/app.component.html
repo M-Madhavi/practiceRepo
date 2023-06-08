@@ -1,0 +1,31 @@
+
+<!-- <router-outlet></router-outlet> -->
+<h1>Hey There!!</h1>
+<app-navbar></app-navbar>
+<app-post [fromParent] = 'parentmessageName' (messageEvent)= "receiveMessage($event)"></app-post>
+<app-post-list [postlistfromparent] ='postListMessagefromParent' (postListMessage) ="postListMessage($event)"></app-post-list>
+<app-del [delComp] = 'delcompvalue' [secdel] ="secDelstatment" [thirdDel] = 'thirddelStatement'></app-del>
+<p>Child Component ->  {{mesgFromChild}}</p>
+
+<!-- class binding -->
+
+<h5 [class.text-area] ="bool">give css to text area</h5>
+
+<!-- style binding -->
+<h3 [style.color]="bool?'purple':'red'">Style binding</h3>
+
+
+<!-- event binding -->
+<button (click)="buttonclik($event)">click me</button>
+
+<!-- event filtering -->
+<!-- <input type="text" (keyup)="keyupfun($event)"> -->
+
+<input type="text" (keyup.enter)="keyupfun()">
+
+<!-- to get value inside input field when pressed enter -->
+
+<input type="text" (keyup.enter)="keyupfunc($event)">
+
+<!--cleaner way of getting value TEMPLATE VARIABLE(can be any name here it is username) -->
+<input type="text" (keyup.enter)="keyfunc(username.value)" #username>
